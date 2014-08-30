@@ -1,17 +1,19 @@
 import twilio.twiml
+import sys
 
 from flask import Flask, render_template, request
+from twilio.util import TwilioCapability
  
 app = Flask(__name__)
-api_url = "your API url goes here" # To replace
+app.config.from_pyfile('client.cfg')
 app.debug=True
 
-"""
-This app illustrate the capability to call anyone from a browser.
-"""
-@app.route('/client', methods=['GET', 'POST'])
+'''
+This client allow to feed a contact API through a form
+'''
+@app.route('/', methods=['GET', 'POST'])
 def client():
-    return render_template('client.html', url = api_url)
+    return render_template('client.html', url = app.config['API_URL'])
  
 if __name__ == "__main__":
     app.run(debug=True)
