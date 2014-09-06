@@ -17,18 +17,28 @@
         <br/>
         <br/>
         <br/>
-      <form action={{ url }} method="post">
-          Name: <input type="text" name="name" placeholder="Name">
-          First Name: <input type="text" name="fname" placeholder="First Name">
-          Phone number: <input type="text" name="phone" placeholder="06........">
-          Speech: <input type="text" name="speech" placeholder="Speech">
-          <input type="submit" value="Submit" placeholder="Name">
+      <form method="POST" action="/submit">
+          {% if form.errors %}
+          <ul class="errors">
+              {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+              {% for error in field_errors %}
+              <li>{{ form[field_name].label }}: {{ error }}</li>
+              {% endfor %}
+              {% endfor %}
+          </ul>
+          {% endif %}
+          {{ form.hidden_tag() }}
+          {{ form.name.label }} {{ form.name(size=20) }}
+          {{ form.fname.label }} {{ form.fname(size=20) }}
+          {{ form.phone.label }} {{ form.phone(size=20) }}
+          {{ form.speech.label }} {{ form.speech(size=20) }}
+          <input type="submit" value="Go !">
       </form>
       <p>
         This small client allows you  to feed a contact database through the following form.<br/>
         First call the +33 9 75 18 93 14 to get the default message.
-        The fill the form and submit it.<br/>
-        Call again. You will hear the speech and the name you gave.<br/>
+        Then fill the form and submit it.<br/>
+        Call again. You will hear the speech preceded by the first name you gave.<br/>
 
         <em>PS: You must call from the number you gave in the form</em>
         </p>
